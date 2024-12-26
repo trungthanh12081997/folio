@@ -24,11 +24,10 @@ jobs:
           else
             echo "Project already exists. Skipping clone."
           fi
-        shell: /bash
+        shell: bash
         env:
           WORKSPACE: /home/frontend
           PROJECT_NAME: folio
-
       - name: Get Project Name
         id: get_project
         run: |
