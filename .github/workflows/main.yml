@@ -54,9 +54,6 @@ jobs:
               CONTAINER_EXISTS=$(docker-compose -f docker-compose.yml ps -q ${{ steps.get_project.outputs.project }})
               if [ -n "$CONTAINER_EXISTS" ]; then
                 echo "Container exists. Stopping and removing..."
-                IMAGE_NAME="nest-pharmatech/${{ steps.get_project.outputs.project }}"
-                CONTAINER_ID=$(docker ps -q --filter "ancestor=$IMAGE_NAME")
-                echo "Stopping container ID: $CONTAINER_ID"
                 docker-compose down -d
               else
                 echo "No existing container found."
