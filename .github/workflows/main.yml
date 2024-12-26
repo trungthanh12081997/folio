@@ -4,7 +4,7 @@ on:
     branches:
       - main
 env:
-  WORKSPACE: /home
+  WORKSPACE: /home/frontend
   PROJECT_NAME: ${{ github.event.repository.name }}
 jobs:
   deploy:
@@ -22,7 +22,7 @@ jobs:
           fi
         shell: /usr/bin/bash -e {0}
         env:
-          WORKSPACE: /home
+          WORKSPACE: /home/frontend
           PROJECT_NAME: folio
       - name: Get Project Name
         id: get_project
