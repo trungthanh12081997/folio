@@ -5,7 +5,7 @@ on:
       - main
 env:
   WORKSPACE: /home/frontend
-  PROJECT_NAME: ${{ github.event.repository.name }}
+  PROJECT_NAME: folio
 jobs:
   deploy:
     name: Deploy
