@@ -15,16 +15,20 @@ jobs:
         run: |
           echo "Checking if project exists in workspace..."
 
-          if [ ! -d "$WORKSPACE/folio" ]; then
+          if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
             echo "Project not found. Cloning repository..."
-            mkdir -p "$WORKSPACE/folio"
+            mkdir -p "$WORKSPACE/$PROJECT_NAME"
             cd "$WORKSPACE"
-            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/folio.git 
+            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git 
             echo "Repository cloned successfully."
           else
             echo "Project already exists. Skipping clone."
           fi
         shell: /usr/bin/bash -e {0}
+        env:
+          WORKSPACE: /home/frontend
+          PROJECT_NAME: folio
+
       - name: Get Project Name
         id: get_project
         run: |
