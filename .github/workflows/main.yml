@@ -14,7 +14,6 @@ jobs:
       - name: If Not Found Clone
         run: |
           echo "Checking if project exists in workspace..."
-          echo "WORKSPACE: $WORKSPACE"
 
           if [ ! -d "$WORKSPACE/folio" ]; then
             echo "Project not found. Cloning repository..."
