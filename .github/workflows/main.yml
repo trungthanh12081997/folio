@@ -1,0 +1,32 @@
+name: Main workflow
+on:
+  push:
+    branches:
+      - main
+env:
+  WORKSPACE: /home/frontend
+  PROJECT_NAME: folio
+jobs:
+  deploy:
+    name: Go To Production
+    runs-on: self-hosted
+    steps:
+      - name: If Folder Not Found Clone
+        run: |
+          mkdir -p "$WORKSPACE"
+          rm -rf "$PROJECT_NAME"
+          cd "$WORKSPACE"
+          git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git
+        shell: bash
+
+      - name: Deploy
+        run: |
+          echo "Deploying"
+          cd "$WORKSPACE/$PROJECT_NAME"
+          git config credential.helper '!f() { sleep 1; echo "username=${{ secrets.GH_USER }}"; echo "password=${{ secrets.GH_TOKEN }}"; }; f'
+          git checkout main
+          git reset --hard
+          git pull --force
+          docker rmi "$PROJECT_NAME" -f || true
+          docker-compose up -d
+        shell: bash

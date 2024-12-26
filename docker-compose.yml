@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  app:
+    build: .
+    image: folio
+    container_name: folio
+    ports:
+      - "8888:8888"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - traefik_default
+      - default
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik_default"
+      - "traefik.http.routers.v2-frontend.entrypoints=http"
+      - "traefik.http.routers.v2-frontend.rule=Host(`trungthanhdev.com`)"
+      - "traefik.http.routers.v2-frontend-secure.entrypoints=https"
+      - "traefik.http.routers.v2-frontend-secure.rule=Host(`trungthanhdev.com`)"
+      - "traefik.http.routers.v2-frontend-secure.tls.certresolver=letsencrypt"
+networks:
+  traefik_default:
+    external: true

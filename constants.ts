@@ -35,24 +35,24 @@ export const MENULINKS = [
 ];
 
 export const TYPED_STRINGS = [
-  "I design and develop things",
-  "I develop modern frontend apps",
-  "I design dynamic user experience",
-  "I design and develop motion",
+  "I challenge projects to deliver unique and unforgettable experiences. 💻✨",
+  "Building bridges between imagination and technology.",
+  "I develop modern UI apps",
+  "Code smart, deliver magic.",
 ];
 
 export const EMAIL = "ayush.singh.xda@gmail.com";
 
 export const SOCIAL_LINKS = {
-  linkedin: "https://www.linkedin.com/in/alphaayush/",
-  github: "https://github.com/ayush013",
-  medium: "https://alphaayush.medium.com/",
-  instagram: "https://www.instagram.com/alphaayush/",
-  facebook: "https://www.facebook.com/ayush013",
-  dribbble: "https://dribbble.com/alphaayush",
-  behance: "https://www.behance.net/alphaayush/",
-  twitter: "https://twitter.com/ayush013",
-  topmate: "https://www.topmate.io/alphaayush/",
+  linkedin: "https://www.linkedin.com/in/quan-trung-thanh-58878a227/",
+  github: "https://github.com/trungthanh12081997",
+  facebook: "https://www.facebook.com/KoiL0ver2019/",
+  // medium: "https://alphaayush.medium.com/",
+  // instagram: "https://www.instagram.com/alphaayush/",
+  // dribbble: "https://dribbble.com/alphaayush",
+  // behance: "https://www.behance.net/alphaayush/",
+  // twitter: "https://twitter.com/ayush013",
+  // topmate: "https://www.topmate.io/alphaayush/",
 };
 
 export interface IProject {
