@@ -14,9 +14,16 @@ jobs:
       - name: If Folder Not Found Clone
         run: |
           if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
-            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git $WORKSPACE/$PROJECT_NAME
+            mkdir -p "$WORKSPACE/$PROJECT_NAME"
+            cd "$WORKSPACE"
+            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git
+          else
+            echo "Directory already exists: $WORKSPACE/$PROJECT_NAME"
           fi
         shell: bash
+        env:
+          WORKSPACE: /home/frontend
+          PROJECT_NAME: folio
 
       - name: Deploy
         run: |
@@ -24,8 +31,25 @@ jobs:
           cd "$WORKSPACE/$PROJECT_NAME"
           git config credential.helper '!f() { sleep 1; echo "username=${{ secrets.GH_USER }}"; echo "password=${{ secrets.GH_TOKEN }}"; }; f'
           git checkout main
-          git reset --hard
           git pull --force
-          docker rmi "$PROJECT_NAME" -f || true
+
+          CONTAINER_EXISTS=$(docker-compose -f docker-compose.yml ps -q)
+          if [ -n "$CONTAINER_EXISTS" ]; then
+            IMAGE_NAME="${{ env.PROJECT_NAME }}"
+
+            # Lấy ID của container từ image
+            CONTAINER_ID=$(docker ps -q --filter "ancestor=$IMAGE_NAME")
+            echo "CONTAINER ID : $CONTAINER_ID"
+            if [ -n "$CONTAINER_ID" ]; then
+              docker stop $CONTAINER_ID
+              docker rm $CONTAINER_ID 
+              docker image rm $IMAGE_NAME
+            else
+              echo "No containers found for image $IMAGE_NAME"
+            fi
+          else
+            echo "No running containers for service $IMAGE_NAME"
+          fi
+
           docker-compose up -d
         shell: bash

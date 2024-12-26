@@ -1,7 +1,8 @@
 version: "3.7"
 
 services:
-  app:
+  folio:
+    restart: always
     build: .
     image: folio
     container_name: folio
