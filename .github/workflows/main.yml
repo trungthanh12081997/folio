@@ -54,7 +54,7 @@ jobs:
               CONTAINER_EXISTS=$(docker-compose -f docker-compose.yml ps -q ${{ steps.get_project.outputs.project }})
               if [ -n "$CONTAINER_EXISTS" ]; then
                 echo "Container exists. Stopping and removing..."
-                docker-compose down -d
+                docker-compose down 
               else
                 echo "No existing container found."
               fi
