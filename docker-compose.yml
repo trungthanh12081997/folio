@@ -1,15 +1,17 @@
-version: "3.7"
-
+version: "3.8"
 services:
-  folio:
+  v2-frontend:
     restart: always
-    build: .
-    image: folio
-    container_name: folio
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PROJECT_NAME: web
+        PORT_PROGRAM: 8888:8888
+    image: folio/v2-frontend
+    container_name: folio_v2-frontend
     ports:
       - "8888:8888"
-    environment:
-      - NODE_ENV=production
     networks:
       - traefik_default
       - default

@@ -1,15 +1,9 @@
-
-# Stage 1: Build the application
-FROM node:18-alpine
-
-WORKDIR /app
-
-ENV PROJECT=folio
-ENV PORT_PROGRAM=8888
+FROM oven/bun:latest
+WORKDIR /app/folio
+COPY package.json ./
+COPY bun.lockb ./
+RUN bun install
 COPY . .
-RUN npm install -g npm
-RUN npm install --force
-RUN npm run build
-# COPY .env .env
-EXPOSE 8888
-CMD ["npm","run", "start"]
+ENV NEXT_TELEMETRY_DISABLED 1
+RUN bun --bun next build
+CMD bun run start
