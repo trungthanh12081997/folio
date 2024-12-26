@@ -15,7 +15,7 @@ jobs:
         run: |
           echo "Checking if project exists in workspace..."
 
-          if [ ! -d "/home/frontend/folio" ]; then
+          if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
             echo "Project not found. Cloning repository..."
             mkdir -p "$WORKSPACE/$PROJECT_NAME"
             cd "$WORKSPACE"
