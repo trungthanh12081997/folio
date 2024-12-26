@@ -15,11 +15,10 @@ jobs:
         run: |
           echo "Checking if project exists in workspace..."
           echo "WORKSPACE: $WORKSPACE"
-          echo "PROJECT_NAME: $PROJECT_NAME"
 
-          if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
+          if [ ! -d "$WORKSPACE/folio" ]; then
             echo "Project not found. Cloning repository..."
-            mkdir -p "$WORKSPACE/$PROJECT_NAME"
+            mkdir -p "$WORKSPACE/folio"
             cd "$WORKSPACE"
             git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git $WORKSPACE/$PROJECT_NAME
             echo "Repository cloned successfully."
