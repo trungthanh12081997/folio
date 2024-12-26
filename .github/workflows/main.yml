@@ -15,6 +15,9 @@ jobs:
       - name: If Not Found Clone
         run: |
           if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
+            cd "$WORKSPACE"
+            mkdir "$PROJECT_NAME"
+            cd "$PROJECT_NAME"
             git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git $WORKSPACE/$PROJECT_NAME
           fi
         shell: /usr/bin/bash -e {0}
