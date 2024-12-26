@@ -20,7 +20,7 @@ jobs:
             echo "Project not found. Cloning repository..."
             mkdir -p "$WORKSPACE/folio"
             cd "$WORKSPACE"
-            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git $WORKSPACE/$PROJECT_NAME
+            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/folio.git 
             echo "Repository cloned successfully."
           else
             echo "Project already exists. Skipping clone."
