@@ -10,43 +10,64 @@ jobs:
   deploy:
     name: Deploy
     runs-on: self-hosted
-    #    needs: scripts.ts-docker-build
     steps:
       - name: If Not Found Clone
         run: |
+          echo "Checking if project exists in workspace..."
+          echo "WORKSPACE: $WORKSPACE"
+          echo "PROJECT_NAME: $PROJECT_NAME"
+
           if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
+            echo "Project not found. Cloning repository..."
             mkdir -p "$WORKSPACE/$PROJECT_NAME"
             cd "$WORKSPACE"
             git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git $WORKSPACE/$PROJECT_NAME
+            echo "Repository cloned successfully."
+          else
+            echo "Project already exists. Skipping clone."
           fi
         shell: /usr/bin/bash -e {0}
         env:
           WORKSPACE: /home/frontend
           PROJECT_NAME: folio
+
       - name: Get Project Name
         id: get_project
         run: |
+          echo "Checking for deployment keyword in commit message..."
           if [[ "${{github.event.head_commit.message}}" =~ \[cd-(.*)\] ]]; then
+            echo "Found deployment keyword. Project: ${BASH_REMATCH[1]}"
             echo "::set-output name=project::${BASH_REMATCH[1]}"
           else
-            echo ::set-output name=project::null
+            echo "No deployment keyword found in commit message."
+            echo "::set-output name=project::null"
           fi
+
       - name: Deploy
         run: |
+          echo "Starting deployment process..."
+          echo "Detected project: ${{ steps.get_project.outputs.project }}"
           if [[ "${{ steps.get_project.outputs.project }}" != "null" ]]; then
               echo "Deploying ${{ steps.get_project.outputs.project }}"
               cd $WORKSPACE/$PROJECT_NAME
               git config credential.helper '!f() { sleep 1; echo "username=${{ secrets.GH_USER }}"; echo "password=${{ secrets.GH_TOKEN }}"; }; f'
               git checkout main
               git pull
+              echo "Checking if container exists..."
               CONTAINER_EXISTS=$(docker-compose -f docker-compose.yml ps -q ${{ steps.get_project.outputs.project }})
               if [ -n "$CONTAINER_EXISTS" ]; then
+                echo "Container exists. Stopping and removing..."
                 IMAGE_NAME="nest-pharmatech/${{ steps.get_project.outputs.project }}"
                 CONTAINER_ID=$(docker ps -q --filter "ancestor=$IMAGE_NAME")
+                echo "Stopping container ID: $CONTAINER_ID"
                 docker stop $CONTAINER_ID
                 docker rm $CONTAINER_ID 
+                echo "Removing image: $IMAGE_NAME"
                 docker image rm $IMAGE_NAME
+              else
+                echo "No existing container found."
               fi
+              echo "Starting new container..."
               docker-compose -f docker-compose.yml up -d ${{ steps.get_project.outputs.project }}
           else
               echo "No project to deploy"
