@@ -10,6 +10,6 @@ COPY . .
 RUN npm install -g npm
 RUN npm install --force
 RUN npm run build
-COPY .env .env
+# COPY .env .env
 EXPOSE 8888
 CMD ["npm", "start"]
