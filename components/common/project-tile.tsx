@@ -61,7 +61,7 @@ const ProjectTile = ({
 
   const renderDescription = (description: string): React.ReactNode => (
     <h2
-      className="text-lg z-10 tracking-wide font-medium"
+      className="text-lg z-10 tracking-wide text-white font-medium"
       style={{ transform: "translateZ(0.8rem)" }}
     >
       {description}
@@ -70,7 +70,7 @@ const ProjectTile = ({
 
   const renderProjectName = (name: string): React.ReactNode => (
     <h1
-      className="text-2xl sm:text-3xl z-10 pl-2"
+      className="text-2xl sm:text-3xl text-white z-10 pl-2"
       style={{ transform: "translateZ(3rem)" }}
     >
       {name}
@@ -98,16 +98,20 @@ const ProjectTile = ({
     image: string,
     blurImage: string,
     name: string
-  ): React.ReactNode => (
-    <Image
-      placeholder="blur"
-      blurDataURL={blurImage}
-      src={image}
-      alt={name}
-      layout="fill"
-      className={`${styles.ProjectImg} z-0`}
-    />
-  );
+  ): React.ReactNode => {
+    console.log("styles.ProjectImg", styles.ProjectImg);
+
+    return (
+      <Image
+        src={image}
+        alt={name}
+        width={0}
+        height={0}
+        layout="fill"
+        className={`${styles.ProjectImg} h-1/2 w-full z-0`}
+      />
+    );
+  };
 
   return (
     <a
