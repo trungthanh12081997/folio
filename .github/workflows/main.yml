@@ -13,10 +13,9 @@ jobs:
     steps:
       - name: If Folder Not Found Clone
         run: |
-          mkdir -p "$WORKSPACE"
-          rm -rf "$PROJECT_NAME"
-          cd "$WORKSPACE"
-          git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git
+          if [ ! -d "$WORKSPACE/$PROJECT_NAME" ]; then
+            git clone https://${{ secrets.GH_TOKEN }}@github.com/trungthanh12081997/$PROJECT_NAME.git $WORKSPACE/$PROJECT_NAME
+          fi
         shell: bash
 
       - name: Deploy
