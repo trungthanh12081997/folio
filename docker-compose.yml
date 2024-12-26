@@ -14,15 +14,15 @@ services:
       - "8888:3000"
     networks:
       - traefik_default
-      - default
+      - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=traefik_default"
+      - "traefik.docker.network=traefik"
       - "traefik.http.routers.v2-frontend.entrypoints=http"
       - "traefik.http.routers.v2-frontend.rule=Host(`trungthanhdev.com`)"
       - "traefik.http.routers.v2-frontend-secure.entrypoints=https"
       - "traefik.http.routers.v2-frontend-secure.rule=Host(`trungthanhdev.com`)"
       - "traefik.http.routers.v2-frontend-secure.tls.certresolver=letsencrypt"
 networks:
-  traefik_default:
+  traefik:
     external: true
