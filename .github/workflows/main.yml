@@ -51,13 +51,7 @@ jobs:
               git checkout main
               git pull
               echo "Checking if container exists..."
-              CONTAINER_EXISTS=$(docker-compose -f docker-compose.yml ps -q ${{ steps.get_project.outputs.project }})
-              if [ -n "$CONTAINER_EXISTS" ]; then
-                echo "Container exists. Stopping and removing..."
-                docker-compose down 
-              else
-                echo "No existing container found."
-              fi
+              docker-compose down 
               echo "Starting new container..."
               docker-compose -f docker-compose.yml up -d ${{ steps.get_project.outputs.project }}
           else
