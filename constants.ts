@@ -67,6 +67,7 @@ export interface IProject {
 
 export const PROJECTS: IProject[] = [
   {
+    
     name: "Pnyx Commcare Service",
     image: "/projects/ic_pnyx.jpg",
     // blurImage: "/projects/blur/figgen-blur.jpg",
